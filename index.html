@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>1st Semester — BS Cyber Security | ABDURRAHMAN</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-color: #070a0f;
+      --card-bg: #0c1017;
+      --card-border: rgba(180, 240, 0, 0.25);
+      --card-top-line: #b4f000;
+      --text-primary: #f1f5f9;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+      --accent-color: #b4f000;
+      --accent-hover: #d4ff4d;
+      --btn-universal: #4d7c0f;
+      --badge-bg: rgba(180, 240, 0, 0.12);
+      --nav-border: rgba(255, 255, 255, 0.08);
+      --pill-bg: rgba(255, 255, 255, 0.04);
+      --pill-border: rgba(255, 255, 255, 0.1);
+    }
+
+    [data-theme="light"] {
+      --bg-color: #f4f6f8;
+      --card-bg: #ffffff;
+      --card-border: rgba(21, 128, 61, 0.22);
+      --card-top-line: #15803d;
+      --text-primary: #0f172a;
+      --text-secondary: #475569;
+      --text-muted: #64748b;
+      --accent-color: #15803d;
+      --accent-hover: #166534;
+      --btn-universal: #4d7c0f;
+      --badge-bg: rgba(21, 128, 61, 0.1);
+      --nav-border: rgba(15, 23, 42, 0.1);
+      --pill-bg: rgba(15, 23, 42, 0.04);
+      --pill-border: rgba(15, 23, 42, 0.12);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      overflow-x: hidden;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-primary);
+      font-family: 'Inter', sans-serif;
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    /* Header */
+    header {
+      border-bottom: 1px solid var(--nav-border);
+      padding: 16px 5%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background-color: var(--bg-color);
+      backdrop-filter: blur(8px);
+    }
+
+    .brand {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: clamp(0.8rem, 1.4vw, 0.95rem);
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      color: var(--text-primary);
+      text-decoration: none;
+    }
+
+    .brand span {
+      color: var(--accent-color);
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .back-link {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      text-decoration: none;
+      white-space: nowrap;
+      transition: color 0.2s ease;
+    }
+
+    .back-link:hover {
+      color: var(--accent-color);
+    }
+
+    .theme-btn {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      padding: 6px 11px;
+      border-radius: 6px;
+      border: 1px solid var(--card-border);
+      background: var(--card-bg);
+      color: var(--text-primary);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.25s ease;
+    }
+
+    .theme-btn:hover {
+      border-color: var(--accent-color);
+    }
+
+    /* Main Container */
+    .container {
+      width: 100%;
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 44px 5% 72px;
+      flex: 1;
+    }
+
+    .page-header {
+      margin-bottom: 28px;
+    }
+
+    .tag-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .page-header h1 {
+      font-size: clamp(1.7rem, 3.6vw, 2.4rem);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 10px;
+    }
+
+    .page-header p {
+      color: var(--text-secondary);
+      max-width: 720px;
+      font-size: clamp(0.92rem, 1.3vw, 1rem);
+    }
+
+    /* Quick Course Filter / Jump Bar */
+    .course-bar-wrap {
+      margin-bottom: 34px;
+    }
+
+    .course-bar-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.74rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+      display: block;
+    }
+
+    .course-quick-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .course-pill-btn {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      background: var(--pill-bg);
+      border: 1px solid var(--pill-border);
+      padding: 8px 14px;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .course-pill-btn:hover {
+      border-color: var(--accent-color);
+      color: var(--accent-color);
+    }
+
+    /* Courses Grid */
+    .courses-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 22px;
+    }
+
+    .course-card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-top: 2px solid var(--card-top-line);
+      border-radius: 12px;
+      padding: 24px 22px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-width: 0;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .course-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 26px rgba(0, 0, 0, 0.2);
+    }
+
+    .course-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .course-code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      letter-spacing: 0.08em;
+    }
+
+    .course-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 4px;
+      background: var(--badge-bg);
+      color: var(--accent-color);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .course-card h2 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--text-primary);
+    }
+
+    .course-card p {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      margin-bottom: 22px;
+    }
+
+    /* Action Buttons Row */
+    .card-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      padding-top: 14px;
+      border-top: 1px solid var(--nav-border);
+    }
+
+    .course-btn {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.76rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--text-primary);
+      background: var(--pill-bg);
+      border: 1px solid var(--pill-border);
+      padding: 8px 12px;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .course-btn:hover {
+      border-color: var(--accent-color);
+      color: var(--accent-color);
+    }
+
+    .pdf-link-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--btn-universal);
+      padding: 6px 2px;
+      transition: color 0.25s ease;
+    }
+
+    .pdf-link-btn .arrow {
+      display: inline-block;
+      transition: transform 0.25s ease;
+    }
+
+    .pdf-link-btn:hover {
+      color: var(--accent-hover);
+    }
+
+    .pdf-link-btn:hover .arrow {
+      transform: translateX(4px);
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--nav-border);
+      text-align: center;
+      padding: 22px 5%;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    /* Mobile Screens (<= 700px) */
+    @media (max-width: 700px) {
+      header {
+        padding: 14px 16px;
+      }
+
+      .header-actions {
+        width: 100%;
+        justify-content: space-between;
+      }
+
+      .container {
+        padding: 28px 16px 52px;
+      }
+
+      .course-quick-row {
+        gap: 8px;
+      }
+
+      .course-pill-btn {
+        font-size: 0.74rem;
+        padding: 7px 11px;
+      }
+
+      .courses-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+
+      .course-card {
+        padding: 20px 18px;
+        border-radius: 10px;
+      }
+
+      .card-actions {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+      }
+
+      .course-btn,
+      .pdf-link-btn {
+        justify-content: center;
+        text-align: center;
+        min-height: 38px;
+        display: inline-flex;
+        align-items: center;
+      }
+
+      footer {
+        padding: 18px 16px;
+        font-size: 0.72rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <a href="index.html" class="brand">ABDURRAHMAN <span>//</span> CYBER SECURITY</a>
+    <div class="header-actions">
+      <a href="https://vofbts765-spec.github.io/Uni_study_notes/" class="back-link">&lt;- All Semesters</a>
+      <button class="theme-btn" id="themeToggle">LIGHT MODE</button>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="container">
+    <div class="page-header">
+      <span class="tag-label">// SEMESTER 01 • CORE COURSES</span>
+      <h1>1st Semester Courses &amp; Study PDFs</h1>
+      <p>
+        Course notes and PDFs put together from my 1st semester classes and personal study. Pick a course below to open its notes.
+      </p>
+    </div>
+
+    <!-- Courses Quick Bar -->
+    <div class="course-bar-wrap">
+      <span class="course-bar-label">Courses</span>
+      <div class="course-quick-row">
+        <a href="#intro-programming" class="course-pill-btn">Introduction to Programming</a>
+        <a href="#intro-computer" class="course-pill-btn">Introduction to Computer</a>
+        <a href="#calculus-1" class="course-pill-btn">Calculus I</a>
+        <a href="#applied-physics" class="course-pill-btn">Applied Physics</a>
+      </div>
+    </div>
+
+    <!-- Courses Grid -->
+    <section class="courses-grid">
+      <!-- 1. Introduction to Programming -->
+      <article class="course-card" id="intro-programming">
+        <div>
+          <div class="course-top">
+            <span class="course-code">CS-101</span>
+            <span class="course-tag">Programming</span>
+          </div>
+          <h2>Introduction to Programming</h2>
+          <p>
+            Logic building, variables, loops, functions, and core coding concepts from lectures and practice.
+          </p>
+        </div>
+        <div class="card-actions">
+          <a href="#intro-programming" class="course-btn">Courses</a>
+          <a href="pdfs/sem1-intro-to-programming.pdf" target="_blank" class="pdf-link-btn">
+            View PDF Notes <span class="arrow">-&gt;</span>
+          </a>
+        </div>
+      </article>
+
+      <!-- 2. Introduction to Computer -->
+      <article class="course-card" id="intro-computer">
+        <div>
+          <div class="course-top">
+            <span class="course-code">CS-102</span>
+            <span class="course-tag">Fundamentals</span>
+          </div>
+          <h2>Introduction to Computer</h2>
+          <p>
+            Computer hardware basics, memory, operating concepts, software layers, and everyday system use.
+          </p>
+        </div>
+        <div class="card-actions">
+          <a href="#intro-computer" class="course-btn">Courses</a>
+          <a href="pdfs/sem1-intro-to-computer.pdf" target="_blank" class="pdf-link-btn">
+            View PDF Notes <span class="arrow">-&gt;</span>
+          </a>
+        </div>
+      </article>
+
+      <!-- 3. Calculus I -->
+      <article class="course-card" id="calculus-1">
+        <div>
+          <div class="course-top">
+            <span class="course-code">MATH-101</span>
+            <span class="course-tag">Mathematics</span>
+          </div>
+          <h2>Calculus I</h2>
+          <p>
+            Functions, limits, continuity, derivatives, and step-by-step problem sets worked out in class.
+          </p>
+        </div>
+        <div class="card-actions">
+          <a href="#calculus-1" class="course-btn">Courses</a>
+          <a href="pdfs/sem1-calculus-1.pdf" target="_blank" class="pdf-link-btn">
+            View PDF Notes <span class="arrow">-&gt;</span>
+          </a>
+        </div>
+      </article>
+
+      <!-- 4. Applied Physics -->
+      <article class="course-card" id="applied-physics">
+        <div>
+          <div class="course-top">
+            <span class="course-code">PHY-101</span>
+            <span class="course-tag">Physics</span>
+          </div>
+          <h2>Applied Physics</h2>
+          <p>
+            Electricity, magnetism, waves, and foundational physical principles behind modern electronics.
+          </p>
+        </div>
+        <div class="card-actions">
+          <a href="#applied-physics" class="course-btn">Courses</a>
+          <a href="pdfs/sem1-applied-physics.pdf" target="_blank" class="pdf-link-btn">
+            View PDF Notes <span class="arrow">-&gt;</span>
+          </a>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    &copy; 2026 ABDURRAHMAN // BS CYBER SECURITY • SEMESTER 1
+  </footer>
+
+  <script>
+    const themeToggle = document.getElementById('themeToggle');
+    const htmlEl = document.documentElement;
+
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    htmlEl.setAttribute('data-theme', savedTheme);
+    themeToggle.textContent = savedTheme === 'dark' ? 'LIGHT MODE' : 'DARK MODE';
+
+    themeToggle.addEventListener('click', () => {
+      const current = htmlEl.getAttribute('data-theme');
+      const next = current === 'dark' ? 'light' : 'dark';
+      htmlEl.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+      themeToggle.textContent = next === 'dark' ? 'LIGHT MODE' : 'DARK MODE';
+    });
+  </script>
+</body>
+</html>
