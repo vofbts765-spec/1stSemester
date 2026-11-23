@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>1st Semester — BS Cyber Security | ABDURRAHMAN</title>
+  <title>1st Semester — Interactive Study Map | ABDURRAHMAN</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
@@ -12,34 +12,30 @@
       --bg-color: #070a0f;
       --card-bg: #0c1017;
       --card-border: rgba(180, 240, 0, 0.25);
-      --card-top-line: #b4f000;
       --text-primary: #f1f5f9;
       --text-secondary: #94a3b8;
       --text-muted: #64748b;
       --accent-color: #b4f000;
-      --accent-hover: #d4ff4d;
+      --accent-glow: rgba(180, 240, 0, 0.25);
+      --branch-line: rgba(180, 240, 0, 0.35);
       --btn-universal: #4d7c0f;
-      --badge-bg: rgba(180, 240, 0, 0.12);
       --nav-border: rgba(255, 255, 255, 0.08);
-      --pill-bg: rgba(255, 255, 255, 0.04);
-      --pill-border: rgba(255, 255, 255, 0.1);
+      --node-bg: #111827;
     }
 
     [data-theme="light"] {
       --bg-color: #f4f6f8;
       --card-bg: #ffffff;
-      --card-border: rgba(21, 128, 61, 0.22);
-      --card-top-line: #15803d;
+      --card-border: rgba(21, 128, 61, 0.28);
       --text-primary: #0f172a;
       --text-secondary: #475569;
       --text-muted: #64748b;
       --accent-color: #15803d;
-      --accent-hover: #166534;
+      --accent-glow: rgba(21, 128, 61, 0.16);
+      --branch-line: rgba(21, 128, 61, 0.35);
       --btn-universal: #4d7c0f;
-      --badge-bg: rgba(21, 128, 61, 0.1);
       --nav-border: rgba(15, 23, 42, 0.1);
-      --pill-bg: rgba(15, 23, 42, 0.04);
-      --pill-border: rgba(15, 23, 42, 0.12);
+      --node-bg: #ffffff;
     }
 
     * {
@@ -56,7 +52,7 @@
       background-color: var(--bg-color);
       color: var(--text-primary);
       font-family: 'Inter', sans-serif;
-      line-height: 1.6;
+      line-height: 1.5;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
@@ -105,7 +101,6 @@
       text-transform: uppercase;
       color: var(--text-secondary);
       text-decoration: none;
-      white-space: nowrap;
       transition: color 0.2s ease;
     }
 
@@ -122,7 +117,6 @@
       background: var(--card-bg);
       color: var(--text-primary);
       cursor: pointer;
-      white-space: nowrap;
       transition: all 0.25s ease;
     }
 
@@ -133,14 +127,14 @@
     /* Main Container */
     .container {
       width: 100%;
-      max-width: 1240px;
+      max-width: 1280px;
       margin: 0 auto;
-      padding: 44px 5% 72px;
+      padding: 36px 5% 70px;
       flex: 1;
     }
 
     .page-header {
-      margin-bottom: 28px;
+      margin-bottom: 32px;
     }
 
     .tag-label {
@@ -149,198 +143,339 @@
       letter-spacing: 0.14em;
       text-transform: uppercase;
       color: var(--accent-color);
-      margin-bottom: 8px;
+      margin-bottom: 6px;
       display: block;
     }
 
     .page-header h1 {
-      font-size: clamp(1.7rem, 3.6vw, 2.4rem);
+      font-size: clamp(1.6rem, 3.4vw, 2.3rem);
       font-weight: 700;
-      line-height: 1.2;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
     }
 
     .page-header p {
       color: var(--text-secondary);
-      max-width: 720px;
-      font-size: clamp(0.92rem, 1.3vw, 1rem);
+      max-width: 700px;
+      font-size: 0.95rem;
     }
 
-    /* Quick Course Filter / Jump Bar */
-    .course-bar-wrap {
-      margin-bottom: 34px;
+    /* Mind-Map Layout (Left Circles -> Right Branches) */
+    .mindmap-workspace {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 36px;
+      align-items: start;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 32px 28px;
+      min-height: 460px;
     }
 
-    .course-bar-label {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.74rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      margin-bottom: 10px;
-      display: block;
-    }
-
-    .course-quick-row {
+    /* Left Side: Course Circles Column */
+    .courses-sidebar {
       display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
+      flex-direction: column;
+      gap: 22px;
+      border-right: 1px dashed var(--branch-line);
+      padding-right: 24px;
     }
 
-    .course-pill-btn {
+    .sidebar-title {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+
+    .course-node-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      cursor: pointer;
+      background: transparent;
+      border: none;
+      text-align: left;
+      color: var(--text-primary);
+      padding: 6px;
+      border-radius: 12px;
+      transition: transform 0.2s ease;
+    }
+
+    .course-node-item:hover {
+      transform: translateX(4px);
+    }
+
+    /* The Circular Node */
+    .circle-dot {
+      width: 46px;
+      height: 46px;
+      min-width: 46px;
+      border-radius: 50%;
+      background: var(--node-bg);
+      border: 2px solid var(--branch-line);
+      display: flex;
+      align-items: center;
+      justify-content: center;
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--accent-color);
+      transition: all 0.25s ease;
+    }
+
+    .course-node-item.active .circle-dot,
+    .course-node-item:hover .circle-dot {
+      border-color: var(--accent-color);
+      box-shadow: 0 0 18px var(--accent-glow);
+      background: var(--accent-color);
+      color: #070a0f;
+    }
+
+    .node-label-wrap {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .node-title {
+      font-size: 0.95rem;
       font-weight: 600;
-      color: var(--text-primary);
-      background: var(--pill-bg);
-      border: 1px solid var(--pill-border);
-      padding: 8px 14px;
-      border-radius: 8px;
+      line-height: 1.3;
+    }
+
+    .course-node-item.active .node-title {
+      color: var(--accent-color);
+    }
+
+    .node-sub {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--text-muted);
+    }
+
+    /* Right Side: Branches Tree Area */
+    .branches-canvas {
+      padding-top: 6px;
+    }
+
+    .active-course-banner {
+      margin-bottom: 24px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--nav-border);
+    }
+
+    .active-course-banner h2 {
+      font-size: 1.35rem;
+      margin-bottom: 4px;
+    }
+
+    .active-course-banner p {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+    }
+
+    /* Tree Branches Structure */
+    .tree-root {
+      position: relative;
+      padding-left: 26px;
+      border-left: 2px solid var(--branch-line);
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .branch-item {
+      position: relative;
+      animation: fadeSlide 0.3s ease forwards;
+    }
+
+    /* Horizontal Connector Line to Circle */
+    .branch-item::before {
+      content: "";
+      position: absolute;
+      left: -26px;
+      top: 20px;
+      width: 24px;
+      height: 2px;
+      background: var(--branch-line);
+    }
+
+    .branch-node-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    /* Small Circle at Branch End */
+    .branch-circle {
+      width: 38px;
+      height: 38px;
+      min-width: 38px;
+      border-radius: 50%;
+      background: var(--node-bg);
+      border: 2px solid var(--accent-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--accent-color);
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+
+    .branch-circle:hover,
+    .branch-circle.open {
+      background: var(--accent-color);
+      color: #070a0f;
+      box-shadow: 0 0 14px var(--accent-glow);
+    }
+
+    .branch-content-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
       text-decoration: none;
+      color: var(--text-primary);
+      background: rgba(148, 163, 184, 0.06);
+      border: 1px solid var(--nav-border);
+      padding: 8px 14px;
+      border-radius: 10px;
+      cursor: pointer;
       transition: all 0.2s ease;
     }
 
-    .course-pill-btn:hover {
+    .branch-content-link:hover {
       border-color: var(--accent-color);
-      color: var(--accent-color);
+      transform: translateX(3px);
     }
 
-    /* Courses Grid */
-    .courses-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 22px;
-    }
-
-    .course-card {
-      background-color: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-top: 2px solid var(--card-top-line);
-      border-radius: 12px;
-      padding: 24px 22px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      min-width: 0;
-      transition: transform 0.25s ease, box-shadow 0.25s ease;
-    }
-
-    .course-card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 12px 26px rgba(0, 0, 0, 0.2);
-    }
-
-    .course-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 12px;
-    }
-
-    .course-code {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.78rem;
-      color: var(--text-muted);
-      letter-spacing: 0.08em;
-    }
-
-    .course-tag {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.68rem;
+    .branch-heading {
+      font-size: 0.94rem;
       font-weight: 600;
-      padding: 3px 8px;
-      border-radius: 4px;
-      background: var(--badge-bg);
-      color: var(--accent-color);
+    }
+
+    .pdf-pill {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--btn-universal);
       text-transform: uppercase;
       letter-spacing: 0.06em;
     }
 
-    .course-card h2 {
-      font-size: 1.25rem;
-      font-weight: 700;
-      margin-bottom: 8px;
-      color: var(--text-primary);
-    }
-
-    .course-card p {
-      font-size: 0.9rem;
-      color: var(--text-secondary);
-      margin-bottom: 22px;
-    }
-
-    /* Action Buttons Row */
-    .card-actions {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 12px;
-      padding-top: 14px;
-      border-top: 1px solid var(--nav-border);
-    }
-
-    .course-btn {
+    .expand-pill {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.76rem;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      text-decoration: none;
-      color: var(--text-primary);
-      background: var(--pill-bg);
-      border: 1px solid var(--pill-border);
-      padding: 8px 12px;
-      border-radius: 6px;
-      transition: all 0.2s ease;
-    }
-
-    .course-btn:hover {
-      border-color: var(--accent-color);
+      font-size: 0.7rem;
       color: var(--accent-color);
     }
 
-    .pdf-link-btn {
-      display: inline-flex;
+    /* Sub-Branches (Level 2 Circles & Headings) */
+    .sub-tree {
+      margin-top: 14px;
+      margin-left: 18px;
+      padding-left: 22px;
+      border-left: 2px dashed var(--branch-line);
+      display: none;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .sub-tree.show {
+      display: flex;
+    }
+
+    .sub-branch-item {
+      position: relative;
+      display: flex;
       align-items: center;
-      gap: 7px;
+      gap: 10px;
+      animation: fadeSlide 0.25s ease forwards;
+    }
+
+    .sub-branch-item::before {
+      content: "";
+      position: absolute;
+      left: -22px;
+      top: 16px;
+      width: 20px;
+      height: 2px;
+      background: var(--branch-line);
+    }
+
+    .sub-circle {
+      width: 30px;
+      height: 30px;
+      min-width: 30px;
+      border-radius: 50%;
+      border: 1.5px solid var(--accent-color);
+      background: var(--node-bg);
+      color: var(--accent-color);
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.8rem;
+      font-size: 0.65rem;
       font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      text-decoration: none;
-      color: var(--btn-universal);
-      padding: 6px 2px;
-      transition: color 0.25s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
-    .pdf-link-btn .arrow {
-      display: inline-block;
-      transition: transform 0.25s ease;
-    }
-
-    .pdf-link-btn:hover {
-      color: var(--accent-hover);
-    }
-
-    .pdf-link-btn:hover .arrow {
-      transform: translateX(4px);
+    @keyframes fadeSlide {
+      from {
+        opacity: 0;
+        transform: translateY(6px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     /* Footer */
     footer {
       border-top: 1px solid var(--nav-border);
       text-align: center;
-      padding: 22px 5%;
+      padding: 20px 5%;
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.78rem;
       color: var(--text-muted);
     }
 
-    /* Mobile Screens (<= 700px) */
-    @media (max-width: 700px) {
+    /* Mobile Responsive */
+    @media (max-width: 820px) {
+      .mindmap-workspace {
+        grid-template-columns: 1fr;
+        gap: 24px;
+        padding: 22px 18px;
+      }
+
+      .courses-sidebar {
+        border-right: none;
+        border-bottom: 1px dashed var(--branch-line);
+        padding-right: 0;
+        padding-bottom: 20px;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+
+      .sidebar-title {
+        width: 100%;
+      }
+
+      .course-node-item {
+        flex: 1 1 calc(50% - 12px);
+        min-width: 210px;
+        background: rgba(148, 163, 184, 0.04);
+        border: 1px solid var(--nav-border);
+        padding: 10px;
+      }
+    }
+
+    @media (max-width: 520px) {
       header {
         padding: 14px 16px;
       }
@@ -351,46 +486,30 @@
       }
 
       .container {
-        padding: 28px 16px 52px;
+        padding: 24px 14px 48px;
       }
 
-      .course-quick-row {
-        gap: 8px;
+      .course-node-item {
+        flex: 1 1 100%;
       }
 
-      .course-pill-btn {
-        font-size: 0.74rem;
-        padding: 7px 11px;
+      .tree-root {
+        padding-left: 18px;
       }
 
-      .courses-grid {
-        grid-template-columns: 1fr;
-        gap: 16px;
+      .branch-item::before {
+        left: -18px;
+        width: 16px;
       }
 
-      .course-card {
-        padding: 20px 18px;
-        border-radius: 10px;
+      .sub-tree {
+        margin-left: 12px;
+        padding-left: 16px;
       }
 
-      .card-actions {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 10px;
-      }
-
-      .course-btn,
-      .pdf-link-btn {
-        justify-content: center;
-        text-align: center;
-        min-height: 38px;
-        display: inline-flex;
-        align-items: center;
-      }
-
-      footer {
-        padding: 18px 16px;
-        font-size: 0.72rem;
+      .sub-branch-item::before {
+        left: -16px;
+        width: 14px;
       }
     }
   </style>
@@ -409,105 +528,25 @@
   <!-- Main Content -->
   <main class="container">
     <div class="page-header">
-      <span class="tag-label">// SEMESTER 01 • CORE COURSES</span>
-      <h1>1st Semester Courses &amp; Study PDFs</h1>
+      <span class="tag-label">// SEMESTER 01 • INTERACTIVE STUDY TREE</span>
+      <h1>1st Semester Study Map</h1>
       <p>
-        Course notes and PDFs put together from my 1st semester classes and personal study. Pick a course below to open its notes.
+        Click on any course circle on the left to branch out its topics. Click a topic circle to expand sub-branches or open its PDF notes directly.
       </p>
     </div>
 
-    <!-- Courses Quick Bar -->
-    <div class="course-bar-wrap">
-      <span class="course-bar-label">Courses</span>
-      <div class="course-quick-row">
-        <a href="#intro-programming" class="course-pill-btn">Introduction to Programming</a>
-        <a href="#intro-computer" class="course-pill-btn">Introduction to Computer</a>
-        <a href="#calculus-1" class="course-pill-btn">Calculus I</a>
-        <a href="#applied-physics" class="course-pill-btn">Applied Physics</a>
+    <!-- Interactive Node & Branch Workspace -->
+    <section class="mindmap-workspace">
+      <!-- Left: Course Circles -->
+      <aside class="courses-sidebar" id="courseNodesList">
+        <span class="sidebar-title">Select Course Node</span>
+        <!-- Circles generated automatically from JS below -->
+      </aside>
+
+      <!-- Right: Dynamic Branches & PDFs -->
+      <div class="branches-canvas" id="branchesCanvas">
+        <!-- Branches generated automatically from JS below -->
       </div>
-    </div>
-
-    <!-- Courses Grid -->
-    <section class="courses-grid">
-      <!-- 1. Introduction to Programming -->
-      <article class="course-card" id="intro-programming">
-        <div>
-          <div class="course-top">
-            <span class="course-code">CS-101</span>
-            <span class="course-tag">Programming</span>
-          </div>
-          <h2>Introduction to Programming</h2>
-          <p>
-            Logic building, variables, loops, functions, and core coding concepts from lectures and practice.
-          </p>
-        </div>
-        <div class="card-actions">
-          <a href="#intro-programming" class="course-btn">Courses</a>
-          <a href="pdfs/sem1-intro-to-programming.pdf" target="_blank" class="pdf-link-btn">
-            View PDF Notes <span class="arrow">-&gt;</span>
-          </a>
-        </div>
-      </article>
-
-      <!-- 2. Introduction to Computer -->
-      <article class="course-card" id="intro-computer">
-        <div>
-          <div class="course-top">
-            <span class="course-code">CS-102</span>
-            <span class="course-tag">Fundamentals</span>
-          </div>
-          <h2>Introduction to Computer</h2>
-          <p>
-            Computer hardware basics, memory, operating concepts, software layers, and everyday system use.
-          </p>
-        </div>
-        <div class="card-actions">
-          <a href="#intro-computer" class="course-btn">Courses</a>
-          <a href="pdfs/sem1-intro-to-computer.pdf" target="_blank" class="pdf-link-btn">
-            View PDF Notes <span class="arrow">-&gt;</span>
-          </a>
-        </div>
-      </article>
-
-      <!-- 3. Calculus I -->
-      <article class="course-card" id="calculus-1">
-        <div>
-          <div class="course-top">
-            <span class="course-code">MATH-101</span>
-            <span class="course-tag">Mathematics</span>
-          </div>
-          <h2>Calculus I</h2>
-          <p>
-            Functions, limits, continuity, derivatives, and step-by-step problem sets worked out in class.
-          </p>
-        </div>
-        <div class="card-actions">
-          <a href="#calculus-1" class="course-btn">Courses</a>
-          <a href="pdfs/sem1-calculus-1.pdf" target="_blank" class="pdf-link-btn">
-            View PDF Notes <span class="arrow">-&gt;</span>
-          </a>
-        </div>
-      </article>
-
-      <!-- 4. Applied Physics -->
-      <article class="course-card" id="applied-physics">
-        <div>
-          <div class="course-top">
-            <span class="course-code">PHY-101</span>
-            <span class="course-tag">Physics</span>
-          </div>
-          <h2>Applied Physics</h2>
-          <p>
-            Electricity, magnetism, waves, and foundational physical principles behind modern electronics.
-          </p>
-        </div>
-        <div class="card-actions">
-          <a href="#applied-physics" class="course-btn">Courses</a>
-          <a href="pdfs/sem1-applied-physics.pdf" target="_blank" class="pdf-link-btn">
-            View PDF Notes <span class="arrow">-&gt;</span>
-          </a>
-        </div>
-      </article>
     </section>
   </main>
 
@@ -517,19 +556,216 @@
   </footer>
 
   <script>
-    const themeToggle = document.getElementById('themeToggle');
+    /* =====================================================================
+       YAHAN SE AAP ASANI SE NAYE COURSES, HEADINGS AUR PDF LINKS ADD KAR SAKTE HAIN
+       ===================================================================== */
+    const coursesData = [
+      {
+        id: "prog",
+        shortCode: "C1",
+        title: "Introduction to Programming",
+        subtitle: "Logic, variables, control flow & functions",
+        branches: [
+          {
+            heading: "01. Basics of Programming & Variables",
+            pdf: "pdfs/prog-01-basics.pdf",
+            subBranches: [
+              { heading: "Data Types & Operators Notes", pdf: "" },
+              { heading: "Input / Output Practice Sheet", pdf: "" }
+            ]
+          },
+          {
+            heading: "02. Conditional Statements & Loops",
+            pdf: "pdfs/prog-02-loops.pdf",
+            subBranches: [
+              { heading: "If-Else & Switch Examples", pdf: "" },
+              { heading: "For & While Loop Exercises", pdf: "" }
+            ]
+          },
+          {
+            heading: "03. Functions & Arrays",
+            pdf: "pdfs/prog-03-functions.pdf",
+            subBranches: []
+          }
+        ]
+      },
+      {
+        id: "comp",
+        shortCode: "C2",
+        title: "Introduction to Computer",
+        subtitle: "Hardware, OS basics & digital systems",
+        branches: [
+          {
+            heading: "01. Computer Architecture & Hardware",
+            pdf: "pdfs/comp-01-hardware.pdf",
+            subBranches: [
+              { heading: "CPU, RAM & Storage Hierarchy", pdf: "pdfs/comp-01a-memory.pdf" }
+            ]
+          },
+          {
+            heading: "02. Number Systems & Binary Logic",
+            pdf: "pdfs/comp-02-binary.pdf",
+            subBranches: []
+          },
+          {
+            heading: "03. Operating Systems & Networking Intro",
+            pdf: "pdfs/comp-03-os-intro.pdf",
+            subBranches: []
+          }
+        ]
+      },
+      {
+        id: "calc",
+        shortCode: "C3",
+        title: "Calculus I",
+        subtitle: "Functions, limits, continuity & derivatives",
+        branches: [
+          {
+            heading: "01. Functions & Domain/Range",
+            pdf: "pdfs/calc-01-functions.pdf",
+            subBranches: []
+          },
+          {
+            heading: "02. Limits & Continuity",
+            pdf: "pdfs/calc-02-limits.pdf",
+            subBranches: [
+              { heading: "Solved Limit Theorems", pdf: "pdfs/calc-02a-theorems.pdf" }
+            ]
+          },
+          {
+            heading: "03. Differentiation Rules & Applications",
+            pdf: "pdfs/calc-03-derivatives.pdf",
+            subBranches: []
+          }
+        ]
+      },
+      {
+        id: "phys",
+        shortCode: "C4",
+        title: "Applied Physics",
+        subtitle: "Electricity, magnetism & waves",
+        branches: [
+          {
+            heading: "01. Electrostatics & Electric Fields",
+            pdf: "pdfs/phys-01-electrostatics.pdf",
+            subBranches: []
+          },
+          {
+            heading: "02. Current, Resistance & Circuits",
+            pdf: "pdfs/phys-02-circuits.pdf",
+            subBranches: []
+          }
+        ]
+      }
+    ];
+
+    const courseNodesList = document.getElementById("courseNodesList");
+    const branchesCanvas = document.getElementById("branchesCanvas");
+    let activeCourseIndex = 0;
+
+    function renderCourseNodes() {
+      // Keep sidebar title and clear old nodes
+      courseNodesList.innerHTML = `<span class="sidebar-title">Courses (Click Circle)</span>`;
+
+      coursesData.forEach((course, index) => {
+        const btn = document.createElement("button");
+        btn.className = `course-node-item ${index === activeCourseIndex ? "active" : ""}`;
+        btn.innerHTML = `
+          <div class="circle-dot">${course.shortCode}</div>
+          <div class="node-label-wrap">
+            <span class="node-title">${course.title}</span>
+            <span class="node-sub">${course.branches.length} Topic Branches</span>
+          </div>
+        `;
+        btn.addEventListener("click", () => {
+          activeCourseIndex = index;
+          renderCourseNodes();
+          renderBranches(course);
+        });
+        courseNodesList.appendChild(btn);
+      });
+    }
+
+    function renderBranches(course) {
+      let branchesHTML = `
+        <div class="active-course-banner">
+          <h2>${course.title}</h2>
+          <p>${course.subtitle} — Click a branch circle to expand sub-topics or click a heading to open the PDF.</p>
+        </div>
+        <div class="tree-root">
+      `;
+
+      course.branches.forEach((branch, bIdx) => {
+        const hasSub = branch.subBranches && branch.subBranches.length > 0;
+        const subId = `sub-${course.id}-${bIdx}`;
+        const circleId = `circle-${course.id}-${bIdx}`;
+
+        branchesHTML += `
+          <div class="branch-item">
+            <div class="branch-node-row">
+              <div class="branch-circle" id="${circleId}" title="${hasSub ? 'Click to expand sub-branches' : 'Topic Node'}" onclick="toggleSubBranch('${subId}', '${circleId}', ${hasSub}, '${branch.pdf}')">
+                ${hasSub ? '+' : '●'}
+              </div>
+              <a href="${branch.pdf}" target="_blank" class="branch-content-link">
+                <span class="branch-heading">${branch.heading}</span>
+                <span class="pdf-pill">PDF -&gt;</span>
+              </a>
+              ${hasSub ? `<span class="expand-pill">(${branch.subBranches.length} sub-nodes)</span>` : ''}
+            </div>
+        `;
+
+        if (hasSub) {
+          branchesHTML += `<div class="sub-tree" id="${subId}">`;
+          branch.subBranches.forEach((sub, sIdx) => {
+            branchesHTML += `
+              <div class="sub-branch-item">
+                <div class="sub-circle">0${sIdx + 1}</div>
+                <a href="${sub.pdf}" target="_blank" class="branch-content-link">
+                  <span class="branch-heading">${sub.heading}</span>
+                  <span class="pdf-pill">PDF -&gt;</span>
+                </a>
+              </div>
+            `;
+          });
+          branchesHTML += `</div>`;
+        }
+
+        branchesHTML += `</div>`;
+      });
+
+      branchesHTML += `</div>`;
+      branchesCanvas.innerHTML = branchesHTML;
+    }
+
+    function toggleSubBranch(subId, circleId, hasSub, fallbackPdf) {
+      if (!hasSub) {
+        window.open(fallbackPdf, "_blank");
+        return;
+      }
+      const subEl = document.getElementById(subId);
+      const circleEl = document.getElementById(circleId);
+      const isOpen = subEl.classList.toggle("show");
+      circleEl.classList.toggle("open", isOpen);
+      circleEl.textContent = isOpen ? "−" : "+";
+    }
+
+    // Initial Render
+    renderCourseNodes();
+    renderBranches(coursesData[0]);
+
+    // Dark / Light Theme Toggle
+    const themeToggle = document.getElementById("themeToggle");
     const htmlEl = document.documentElement;
+    const savedTheme = localStorage.getItem("theme") || "dark";
+    htmlEl.setAttribute("data-theme", savedTheme);
+    themeToggle.textContent = savedTheme === "dark" ? "LIGHT MODE" : "DARK MODE";
 
-    const savedTheme = localStorage.getItem('theme') || 'dark';
-    htmlEl.setAttribute('data-theme', savedTheme);
-    themeToggle.textContent = savedTheme === 'dark' ? 'LIGHT MODE' : 'DARK MODE';
-
-    themeToggle.addEventListener('click', () => {
-      const current = htmlEl.getAttribute('data-theme');
-      const next = current === 'dark' ? 'light' : 'dark';
-      htmlEl.setAttribute('data-theme', next);
-      localStorage.setItem('theme', next);
-      themeToggle.textContent = next === 'dark' ? 'LIGHT MODE' : 'DARK MODE';
+    themeToggle.addEventListener("click", () => {
+      const current = htmlEl.getAttribute("data-theme");
+      const next = current === "dark" ? "light" : "dark";
+      htmlEl.setAttribute("data-theme", next);
+      localStorage.setItem("theme", next);
+      themeToggle.textContent = next === "dark" ? "LIGHT MODE" : "DARK MODE";
     });
   </script>
 </body>
